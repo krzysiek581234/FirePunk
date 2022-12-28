@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 66e7535a262e44b48a497791d9253ef4
+labels:
+- Audio
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - bSound: {fileID: 8300000, guid: 7478151cf36724a7dada558f746c3633, type: 3}
+  - EnemyCollisionSound: {fileID: 8300000, guid: ff5f85da24bc943d1abdc5760a22bc81, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

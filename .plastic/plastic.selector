@@ -1,0 +1,4 @@
+repository "Mi_platformer@Gdansk_University_of_Technology@cloud"
+  path "/"
+    br "/main"
+    co "/main"
