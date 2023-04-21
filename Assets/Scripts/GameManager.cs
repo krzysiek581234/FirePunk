@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text scoreText;
     public TMP_Text enemyText;
     public TMP_Text timerText;
+    public TMP_Text qualityText;
 
     //LevelCompletedCanvas
     public TMP_Text highScoreText;
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public Canvas pauseMenuCanvas;
     public Canvas levelCompletedCanvas;
     public Canvas optionsCanvas;
+    public Canvas gameOverCanvas;
 
     public int keysFound = 0;
     public Image[] keysTab;
@@ -37,6 +39,10 @@ public class GameManager : MonoBehaviour
 
     const string keyHighScore = "HighScoreLevel1";
 
+    public void SetVolume(float vol)
+    {
+        AudioListener.volume = vol;
+    }
     public void OnResumeButtonClicked()
     {
         InGame();
@@ -51,6 +57,22 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void OnOptionsMenuButtonClicked()
+    {
+        Options();
+    }
+
+    public void OnIncreaseQualityClicked()
+    {
+        QualitySettings.IncreaseLevel();
+        qualityText.text = "Quality: " + QualitySettings.names[QualitySettings.GetQualityLevel()];
+    }
+
+    public void OnDecreaseQualityClicked()
+    {
+        QualitySettings.DecreaseLevel();
+        qualityText.text = "Quality: " + QualitySettings.names[QualitySettings.GetQualityLevel()];
+    }
 
     public void AddPoints(int points)
     {
@@ -102,11 +124,14 @@ public class GameManager : MonoBehaviour
         currentGameState = newGameState;
         pauseMenuCanvas.enabled = (currentGameState == GameState.GS_PAUSEMENU);
         levelCompletedCanvas.enabled = (currentGameState == GameState.GS_LEVELCOMPLETED);
+        optionsCanvas.enabled = (currentGameState == GameState.GS_OPTIONS);
+        gameOverCanvas.enabled = (currentGameState == GameState.GS_GAME_OVER);
     }
 
     public void PauseMenu()
     {
         SetGameState(GameState.GS_PAUSEMENU);
+        Time.timeScale = 0;
     }
 
     public void LevelCompleted()
@@ -117,25 +142,31 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         SetGameState(GameState.GS_GAME_OVER);
+        Time.timeScale = 0;
     }
 
     public void InGame()
     {
         SetGameState(GameState.GS_GAME);
+        Time.timeScale = 1;
     }
 
     public void Options()
     {
         SetGameState(GameState.GS_OPTIONS);
+        Time.timeScale = 0;
     }
 
     void Awake()
     {
+        timer = 200.0f;
         instance = this;
         scoreText.text = score.ToString();
         enemyText.text = enemiesKilled.ToString();
         timerText.text = string.Format("{0:00}:{1:00}", (int)timer / 60, (int)timer%60);
-        for(int i = 0; i < keysTab.Length; i++)
+        qualityText.text = "Quality: " + QualitySettings.names[QualitySettings.GetQualityLevel()];
+        AudioListener.volume = 0.5f;
+        for (int i = 0; i < keysTab.Length; i++)
         {
             keysTab[i].color = Color.grey;
         }
@@ -159,15 +190,19 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (currentGameState == GameState.GS_GAME)
-            timer += Time.deltaTime;
+        {
+            timer -= Time.deltaTime;
+            if(timer <= 0)
+                GameOver();
+        }
+        
         timerText.text = string.Format("{0:00}:{1:00}", (int)timer/60, (int)timer%60);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if(currentGameState == GameState.GS_GAME)
                 PauseMenu();
             else if(currentGameState == GameState.GS_PAUSEMENU)
-                InGame();
-                
+                InGame();    
         }
     }
 }

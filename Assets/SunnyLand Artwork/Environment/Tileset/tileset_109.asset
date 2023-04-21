@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tileset_109
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: -763374616, guid: e1978895021144045b3c09f53e4e8561, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9622642, g: 0.058264643, b: 0, a: 1}
   m_Transform:
     e00: 1
     e01: 0
@@ -33,4 +33,4 @@ MonoBehaviour:
     e33: 1
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
-  m_ColliderType: 1
+  m_ColliderType: 2

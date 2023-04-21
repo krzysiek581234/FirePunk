@@ -58,7 +58,6 @@ void Update()
         platforms[i].transform.position = Vector3.MoveTowards(platforms[i].transform.position, DstPositions[i], step);
         if (Vector3.Distance(platforms[i].transform.position, DstPositions[i]) < 0.1  )
         {
-                Debug.Log("swap");
                 var temp = DstPositions[i];
                 DstPositions[i] = FirPositions[i];
                 FirPositions[i] = temp;

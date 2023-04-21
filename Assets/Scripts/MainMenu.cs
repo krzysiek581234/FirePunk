@@ -23,8 +23,8 @@ public class MainMenu : MonoBehaviour
 
     private IEnumerator StartGame(string levelName)
     {
-        yield return new WaitForSeconds(0.1f);
         SceneManager.LoadScene(levelName);
+        yield return new WaitForSeconds(0.1f);
     }
 
     public void OnExitToDesktopButtonPressed()
